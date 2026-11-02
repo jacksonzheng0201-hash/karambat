@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>JOHNNY BUILDS A ROCKET TO MARS — Pop-Up Book</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ MUTE ============ -->
+<button id="mute-btn" class="hud-btn" aria-label="Mute sounds">🔊</button>
+
+<!-- ================================================================
+     GATE — "Candy in the trunk!"
+     ================================================================ -->
+<div id="gate" class="screen">
+  <svg viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" class="scene">
+    <!-- night sky -->
+    <rect width="1000" height="640" fill="url(#gateSky)"/>
+    <defs>
+      <linearGradient id="gateSky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#0b0338"/>
+        <stop offset="1" stop-color="#3b1670"/>
+      </linearGradient>
+      <radialGradient id="boxGlow" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#ffe600" stop-opacity="0.95"/>
+        <stop offset="1" stop-color="#ffe600" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <g class="twinkle">
+      <circle cx="90" cy="70" r="4" fill="#fff"/><circle cx="240" cy="120" r="3" fill="#fff"/>
+      <circle cx="420" cy="60" r="5" fill="#fff"/><circle cx="610" cy="110" r="3" fill="#fff"/>
+      <circle cx="780" cy="50" r="4" fill="#fff"/><circle cx="930" cy="140" r="5" fill="#fff"/>
+      <circle cx="150" cy="200" r="3" fill="#fff"/><circle cx="860" cy="230" r="3" fill="#fff"/>
+    </g>
+    <!-- ground -->
+    <rect y="520" width="1000" height="120" fill="#1c1440"/>
+    <rect y="520" width="1000" height="10" fill="#7b2fff"/>
+
+    <!-- big loud sign -->
+    <g id="gate-sign">
+      <rect x="560" y="60" width="410" height="150" rx="24" fill="#ff2e97" stroke="#ffe600" stroke-width="8"/>
+      <text x="765" y="122" class="sign-line">CANDY IN</text>
+      <text x="765" y="182" class="sign-line">THE TRUNK! 🍬</text>
+    </g>
+
+    <!-- car (rear 3/4 view) -->
+    <g id="car">
+      <!-- trunk interior, revealed when lid opens -->
+      <g id="trunk-inside">
+        <rect x="150" y="330" width="330" height="170" rx="18" fill="#07021f"/>
+        <circle id="inside-glow" cx="315" cy="420" r="150" fill="url(#boxGlow)" opacity="0"/>
+        <!-- the mysterious box -->
+        <g id="magic-box" class="tapable">
+          <rect x="230" y="370" width="170" height="110" rx="12" fill="#ff9f1c" stroke="#ffe600" stroke-width="6"/>
+          <rect x="230" y="370" width="170" height="26" rx="8" fill="#e07800"/>
+          <text x="315" y="447" class="box-q">?</text>
+        </g>
+        <text x="315" y="580" class="hint" id="hint-jump" opacity="0">KIDS, CLIMB IN! 👇</text>
+      </g>
+      <!-- car body -->
+      <path d="M120 500 L120 340 Q120 320 145 320 L500 320 L520 380 Q560 400 560 440 L560 500 Z" fill="#2de1fc" stroke="#0fd3ee" stroke-width="6"/>
+      <rect x="120" y="470" width="440" height="46" rx="16" fill="#15a7c7"/>
+      <circle cx="200" cy="522" r="34" fill="#111" stroke="#ffe600" stroke-width="8"/>
+      <circle cx="470" cy="522" r="34" fill="#111" stroke="#ffe600" stroke-width="8"/>
+      <rect x="160" y="420" width="52" height="20" rx="8" fill="#ff2e97"/>
+      <rect x="400" y="420" width="52" height="20" rx="8" fill="#ff2e97"/>
+      <!-- trunk lid (hinged at bottom back) -->
+      <g id="trunk-lid">
+        <path d="M140 330 L505 330 L520 300 Q525 285 505 285 L155 285 Q135 285 140 300 Z" fill="#0fd3ee" stroke="#2de1fc" stroke-width="6"/>
+        <rect x="150" y="318" width="330" height="16" rx="8" fill="#ffe600"/>
+      </g>
+      <text x="315" y="262" class="hint" id="hint-open">TAP THE TRUNK TO OPEN IT!</text>
+    </g>
+  </svg>
+
+  <!-- jump-in button appears after trunk opens -->
+  <button id="jump-btn" class="mega-btn">JUMP IN!! 🍬</button>
+</div>
+
+<!-- ================================================================
+     BOOK
+     ================================================================ -->
+<div id="book" class="screen hidden">
+
+  <!-- page dots -->
+  <div id="page-dots"></div>
+
+  <!-- ============ PAGE 0 · COVER ============ -->
+  <section class="page" id="p0">
+    <svg viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" class="scene">
+      <rect width="1000" height="640" fill="url(#coverSky)"/>
+      <defs>
+        <linearGradient id="coverSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#7b2fff"/>
+          <stop offset="1" stop-color="#ff2e97"/>
+        </linearGradient>
+      </defs>
+      <g class="twinkle">
+        <circle cx="80" cy="90" r="5" fill="#fff"/><circle cx="300" cy="50" r="4" fill="#fff"/>
+        <circle cx="700" cy="80" r="5" fill="#fff"/><circle cx="920" cy="150" r="4" fill="#fff"/>
+        <circle cx="560" cy="40" r="3" fill="#fff"/><circle cx="160" cy="220" r="3" fill="#fff"/>
+      </g>
+      <!-- pop-up rocket -->
+      <g id="cover-rocket" class="tapable" data-sfx="lift">
+        <g class="pop">
+        <path d="M500 150 Q540 230 540 330 L460 330 Q460 230 500 150 Z" fill="#f5f5ff" stroke="#2b2b46" stroke-width="6"/>
+        <path d="M500 150 Q517 192 524 240 L476 240 Q483 192 500 150 Z" fill="#ff2e97"/>
+        <circle cx="500" cy="285" r="24" fill="#2de1fc" stroke="#2b2b46" stroke-width="6"/>
+        <path d="M460 300 L420 360 L460 345 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/>
+        <path d="M540 300 L580 360 L540 345 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/>
+        <path d="M475 340 Q500 400 525 340 L540 330 L460 330 Z" fill="#ff9f1c"/>
+        <g class="flame"><path d="M500 360 Q530 430 500 480 Q470 430 500 360 Z" fill="#ff9f1c"/><path d="M500 375 Q518 425 500 458 Q482 425 500 375 Z" fill="#ffe600"/></g>
+        </g>
+      </g>
+      <text x="500" y="80" class="cover-kicker">A WIGGLY, LOUD, POP-UP BOOK</text>
+      <text x="500" y="560" class="cover-title-1">JOHNNY</text>
+      <text x="500" y="608" class="cover-title-2">BUILDS A ROCKET TO MARS 🚀</text>
+      <!-- dog -->
+      <g transform="translate(830 470)"><g id="cover-dog" class="pop">
+        <ellipse cx="0" cy="80" rx="70" ry="26" fill="#d9a066"/>
+        <circle cx="-30" cy="30" r="34" fill="#e8b87d"/>
+        <circle cx="-30" cy="14" r="20" fill="#c98d55"/>
+        <circle cx="-40" cy="28" r="4" fill="#2b2b46"/><circle cx="-20" cy="28" r="4" fill="#2b2b46"/>
+        <path d="M-46 40 Q-30 52 -14 40" stroke="#2b2b46" stroke-width="4" fill="none"/>
+      </g></g>
+      <text x="500" y="530" class="tap-hint" id="cover-hint">TAP THE ROCKET TO OPEN THE BOOK!</text>
+    </svg>
+  </section>
+
+  <!-- ============ PAGE 1 · SPOTTING MARS ============ -->
+  <section class="page" id="p1">
+    <svg viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" class="scene">
+      <rect width="1000" height="640" fill="#0b0338"/>
+      <g class="twinkle">
+        <circle cx="120" cy="80" r="4" fill="#fff"/><circle cx="260" cy="150" r="3" fill="#fff"/>
+        <circle cx="390" cy="60" r="5" fill="#fff"/><circle cx="520" cy="180" r="3" fill="#fff"/>
+        <circle cx="180" cy="260" r="3" fill="#fff"/><circle cx="640" cy="90" r="4" fill="#fff"/>
+        <circle cx="90" cy="380" r="3" fill="#fff"/><circle cx="450" cy="300" r="3" fill="#fff"/>
+      </g>
+      <!-- MARS -->
+      <g id="mars" class="tapable" data-sfx="sparkle">
+        <circle cx="860" cy="130" r="80" fill="#ff4d2e" opacity="0.25" class="mars-halo"/>
+        <circle cx="860" cy="130" r="46" fill="#ff4d2e" stroke="#ff9f1c" stroke-width="5"/>
+        <circle cx="845" cy="118" r="9" fill="#d93a1f"/><circle cx="878" cy="145" r="7" fill="#d93a1f"/>
+        <circle cx="862" cy="112" r="4" fill="#ffb08c"/>
+      </g>
+      <!-- house + fence -->
+      <path d="M60 640 L60 420 L200 330 L340 420 L340 640 Z" fill="#1c1440"/>
+      <rect x="170" y="520" width="70" height="120" fill="#ff9f1c"/>
+      <rect x="90" y="440" width="60" height="60" fill="#ffe600"/>
+      <rect x="250" y="440" width="60" height="60" fill="#2de1fc"/>
+      <rect y="560" width="1000" height="80" fill="#14200a"/>
+      <rect y="552" width="1000" height="12" fill="#2f4d16"/>
+      <!-- Johnny pointing up -->
+      <g id="johnny-p1" transform="translate(560 430)">
+        <circle cx="0" cy="0" r="46" fill="#ffd9b3"/>
+        <path d="M-46 -8 A46 46 0 0 1 46 -8 L46 2 A46 46 0 0 0 -46 2 Z" fill="#ff2e97"/>
+        <circle cx="-16" cy="6" r="6" fill="#2b2b46"/><circle cx="16" cy="6" r="6" fill="#2b2b46"/>
+        <path d="M-14 26 Q0 38 14 26" stroke="#2b2b46" stroke-width="5" fill="none" class="johnny-smile"/>
+        <rect x="-26" y="44" width="52" height="80" rx="18" fill="#2de1fc"/>
+        <!-- raised pointing arm -->
+        <g id="johnny-arm">
+          <rect x="18" y="-60" width="14" height="90" rx="7" fill="#ffd9b3" transform="rotate(28 25 -10)"/>
+          <circle cx="72" cy="-62" r="11" fill="#ffd9b3"/>
+        </g>
+        <rect x="-30" y="120" width="22" height="46" rx="9" fill="#3b1670"/>
+        <rect x="8" y="120" width="22" height="46" rx="9" fill="#3b1670"/>
+      </g>
+      <!-- dog -->
+      <g id="dog-p1" transform="translate(680 540)">
+        <ellipse cx="0" cy="20" rx="58" ry="22" fill="#d9a066"/>
+        <circle cx="-40" cy="-6" r="26" fill="#e8b87d"/>
+        <circle cx="-52" cy="-4" r="5" fill="#2b2b46"/><circle cx="-30" cy="-4" r="5" fill="#2b2b46"/>
+        <circle cx="-42" cy="8" r="6" fill="#2b2b46"/>
+        <path d="M-62 -22 Q-70 -40 -52 -34" stroke="#c98d55" stroke-width="10" fill="none"/>
+      </g>
+      <text x="500" y="618" class="scene-caption" id="cap-p1">Johnny sees something RED twinkling up there…</text>
+    </svg>
+    <div class="narration" id="n-p1"><button class="read-btn" data-read="p1">🔊</button><span class="narr-text">That red dot is a PLANET! Tap it, quick!</span></div>
+  </section>
+
+  <!-- ============ PAGE 2 · GATHERING SUPPLIES ============ -->
+  <section class="page" id="p2">
+    <svg viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" class="scene">
+      <rect width="1000" height="640" fill="#ffb56b"/>
+      <rect y="470" width="1000" height="170" fill="#c9752e"/>
+      <rect x="60" y="60" width="220" height="180" rx="14" fill="#2de1fc" stroke="#0b6f85" stroke-width="8"/>
+      <line x1="170" y1="60" x2="170" y2="240" stroke="#0b6f85" stroke-width="8"/>
+      <line x1="60" y1="150" x2="280" y2="150" stroke="#0b6f85" stroke-width="8"/>
+      <!-- couch -->
+      <rect x="620" y="330" width="340" height="150" rx="30" fill="#7b2fff"/>
+      <rect x="600" y="290" width="380" height="90" rx="30" fill="#9450ff"/>
+      <!-- shelf -->
+      <rect x="360" y="120" width="240" height="18" fill="#8a4a1f"/>
+      <rect x="360" y="230" width="240" height="18" fill="#8a4a1f"/>
+
+      <!-- SUPPLY ITEMS (tap to grab) — outer <g> positions, inner <g> animates -->
+      <g transform="translate(430 60)"><g class="item tapable" data-item="tube" data-sfx="grab">
+        <rect x="-16" y="0" width="32" height="56" rx="10" fill="#d9a066" stroke="#8a4a1f" stroke-width="4"/>
+        <ellipse cx="0" cy="2" rx="16" ry="6" fill="#f0c894"/>
+      </g></g>
+      <g transform="translate(660 452)"><g class="item tapable" data-item="tape" data-sfx="grab">
+        <circle cx="0" cy="0" r="26" fill="#b8b8c9" stroke="#6e6e85" stroke-width="6"/>
+        <circle cx="0" cy="0" r="10" fill="#ffb56b"/>
+      </g></g>
+      <g transform="translate(320 380)"><g class="item tapable" data-item="bottle" data-sfx="grab">
+        <rect x="-18" y="-40" width="36" height="80" rx="12" fill="#a6ff00" stroke="#4f8f00" stroke-width="5"/>
+        <rect x="-8" y="-56" width="16" height="18" rx="4" fill="#4f8f00"/>
+        <text x="0" y="10" class="fizz">🥤</text>
+      </g></g>
+      <g transform="translate(880 250)"><g class="item tapable" data-item="foil" data-sfx="grab">
+        <path d="M-34 20 L-20 -22 L0 12 L20 -24 L34 20 Z" fill="#dfe3ff" stroke="#8c93c9" stroke-width="5"/>
+      </g></g>
+      <g transform="translate(180 500)"><g class="item tapable" data-item="bucket" data-sfx="grab">
+        <path d="M-34 -24 L34 -24 L24 26 L-24 26 Z" fill="#ff2e97" stroke="#b01066" stroke-width="5"/>
+        <path d="M-34 -24 Q0 -60 34 -24" stroke="#b01066" stroke-width="6" fill="none"/>
+      </g></g>
+      <g transform="translate(540 430)"><g class="item tapable" data-item="box" data-sfx="grab">
+        <rect x="-46" y="-34" width="92" height="68" rx="8" fill="#e2a85c" stroke="#8a4a1f" stroke-width="5"/>
+        <line x1="0" y1="-34" x2="0" y2="34" stroke="#8a4a1f" stroke-width="5"/>
+      </g></g>
+
+      <!-- Johnny with wagon -->
+      <g transform="translate(90 400)">
+        <circle cx="0" cy="0" r="40" fill="#ffd9b3"/>
+        <path d="M-40 -6 A40 40 0 0 1 40 -6 L40 3 A40 40 0 0 0 -40 3 Z" fill="#ff2e97"/>
+        <circle cx="-14" cy="6" r="5" fill="#2b2b46"/><circle cx="14" cy="6" r="5" fill="#2b2b46"/>
+        <path d="M-11 22 Q0 31 11 22" stroke="#2b2b46" stroke-width="4" fill="none"/>
+        <rect x="-22" y="38" width="44" height="66" rx="16" fill="#a6ff00"/>
+      </g>
+
+      <!-- supply counter -->
+      <g id="supply-counter">
+        <rect x="700" y="40" width="270" height="90" rx="20" fill="#fff" stroke="#ff2e97" stroke-width="7"/>
+        <text x="835" y="103" id="supply-count" class="count-text">🎒 0 / 6</text>
+      </g>
+      <text x="500" y="618" class="scene-caption">HIDE-and-SQUEE seek! Grab ALL 6 supplies!</text>
+    </svg>
+    <div class="narration" id="n-p2"><button class="read-btn" data-read="p2">🔊</button><span class="narr-text">A rocket needs: a tube, tape, a fizz bottle, shiny foil, a bucket, and a box! TAP each one!</span></div>
+  </section>
+
+  <!-- ============ PAGE 3 · BUILDING IN THE GARAGE ============ -->
+  <section class="page" id="p3">
+    <svg viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" class="scene">
+      <rect width="1000" height="640" fill="#4f6b85"/>
+      <rect y="480" width="1000" height="160" fill="#39505f"/>
+      <rect x="40" y="50" width="190" height="130" rx="10" fill="#2b3947"/>
+      <text x="135" y="128" class="peg">🧰 TOOLS</text>
+      <rect x="770" y="60" width="200" height="200" rx="16" fill="#ffe600" stroke="#b8960a" stroke-width="8"/>
+      <text x="870" y="175" class="window-sun">🌞</text>
+
+      <!-- rocket stand + silhouette slots -->
+      <g id="rocket-build">
+        <line x1="480" y1="560" x2="480" y2="200" stroke="#22303a" stroke-width="10" stroke-dasharray="4 14" opacity="0.7"/>
+        <!-- SLOT: nose (from top) -->
+        <g class="slot" id="slot-nose"><path d="M480 120 Q512 180 516 230 L444 230 Q448 180 480 120 Z" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="10 10" opacity="0.6"/></g>
+        <!-- SLOT: body -->
+        <g class="slot" id="slot-body"><rect x="444" y="232" width="72" height="180" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="10 10" opacity="0.6"/></g>
+        <!-- SLOT: window -->
+        <g class="slot" id="slot-window"><circle cx="480" cy="300" r="22" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="10 10" opacity="0.6"/></g>
+        <!-- SLOT: fins -->
+        <g class="slot" id="slot-fins"><path d="M444 392 L408 452 L444 436 Z M516 392 L552 452 L516 436 Z" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="10 10" opacity="0.6"/></g>
+        <!-- installed parts (hidden until placed) -->
+        <g id="in-nose" class="in-part"><path d="M480 120 Q512 180 516 230 L444 230 Q448 180 480 120 Z" fill="#ff2e97" stroke="#2b2b46" stroke-width="5"/></g>
+        <g id="in-body" class="in-part"><rect x="444" y="232" width="72" height="180" fill="#f5f5ff" stroke="#2b2b46" stroke-width="5"/></g>
+        <g id="in-window" class="in-part"><circle cx="480" cy="300" r="22" fill="#2de1fc" stroke="#2b2b46" stroke-width="5"/></g>
+        <g id="in-fins" class="in-part"><path d="M444 392 L408 452 L444 436 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/><path d="M516 392 L552 452 L516 436 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/></g>
+      </g>
+
+      <!-- loose parts on the floor (tap to install) — outer <g> positions, inner animates -->
+      <g transform="translate(210 430)"><g class="part tapable" data-part="nose" data-sfx="clank">
+        <path d="M0 -50 Q32 10 36 60 L-36 60 Q-32 10 0 -50 Z" fill="#ff2e97" stroke="#2b2b46" stroke-width="5"/>
+        <text y="90" class="part-label">NOSE!</text>
+      </g></g>
+      <g transform="translate(320 440)"><g class="part tapable" data-part="body" data-sfx="clank">
+        <rect x="-30" y="-60" width="60" height="150" fill="#f5f5ff" stroke="#2b2b46" stroke-width="5"/>
+        <text y="112" class="part-label">BODY!</text>
+      </g></g>
+      <g transform="translate(640 430)"><g class="part tapable" data-part="window" data-sfx="clank">
+        <circle r="26" fill="#2de1fc" stroke="#2b2b46" stroke-width="5"/>
+        <text y="56" class="part-label">WINDOW!</text>
+      </g></g>
+      <g transform="translate(740 430)"><g class="part tapable" data-part="fins" data-sfx="clank">
+        <path d="M-38 30 L-6 -40 L-6 30 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/>
+        <path d="M10 30 L42 -40 L42 30 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/>
+        <text y="56" class="part-label">FINS!</text>
+      </g></g>
+
+      <!-- JUDGING DOG on a stool -->
+      <g transform="translate(880 430)"><g id="dog-judge" class="tapable" data-sfx="bark">
+        <rect x="-34" y="70" width="68" height="16" rx="8" fill="#8a4a1f"/>
+        <rect x="-26" y="86" width="10" height="60" fill="#8a4a1f"/>
+        <rect x="16" y="86" width="10" height="60" fill="#8a4a1f"/>
+        <ellipse cx="0" cy="42" rx="42" ry="26" fill="#d9a066"/>
+        <circle cx="-34" cy="6" r="24" fill="#e8b87d"/>
+        <path d="M-52 -12 Q-62 -30 -42 -24" stroke="#c98d55" stroke-width="9" fill="none"/>
+        <!-- unimpressed half-closed eyes -->
+        <g class="dog-eyes">
+          <rect x="-52" y="-2" width="16" height="10" fill="#2b2b46"/>
+          <rect x="-30" y="-2" width="16" height="10" fill="#2b2b46"/>
+          <line x1="-54" y1="-8" x2="-34" y2="-4" stroke="#2b2b46" stroke-width="4"/>
+          <line x1="-30" y1="-4" x2="-10" y2="-8" stroke="#2b2b46" stroke-width="4"/>
+        </g>
+        <circle cx="-44" cy="14" r="5" fill="#2b2b46"/>
+        <text x="20" y="-30" id="dog-thought" class="dog-thought" opacity="0">…that's a BOX.</text>
+      </g></g>
+
+      <text x="500" y="622" class="scene-caption">TAP the parts into the glowing spots — CLANK!</text>
+    </svg>
+    <div class="narration" id="n-p3"><button class="read-btn" data-read="p3">🔊</button><span class="narr-text">4 parts. 1 rocket. The dog thinks it will NOT work. Prove him wrong!</span></div>
+  </section>
+
+  <!-- ============ PAGE 4 · BLAST OFF ============ -->
+  <section class="page" id="p4">
+    <svg viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" class="scene">
+      <rect width="1000" height="640" fill="url(#p4sky)"/>
+      <defs>
+        <linearGradient id="p4sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0b0338"/>
+          <stop offset="1" stop-color="#7b2fff"/>
+        </linearGradient>
+      </defs>
+      <g class="twinkle">
+        <circle cx="120" cy="90" r="4" fill="#fff"/><circle cx="340" cy="50" r="3" fill="#fff"/>
+        <circle cx="620" cy="110" r="4" fill="#fff"/><circle cx="860" cy="60" r="5" fill="#fff"/>
+        <circle cx="920" cy="220" r="3" fill="#fff"/><circle cx="80" cy="260" r="3" fill="#fff"/>
+      </g>
+      <rect y="540" width="1000" height="100" fill="#1c1440"/>
+      <!-- launch pad -->
+      <rect x="380" y="520" width="240" height="26" rx="10" fill="#ff9f1c"/>
+      <rect x="420" y="546" width="20" height="40" fill="#b8640a"/>
+      <rect x="560" y="546" width="20" height="40" fill="#b8640a"/>
+
+      <g id="liftoff-group">
+        <g id="rocket-p4">
+          <path d="M500 180 Q540 260 544 340 L456 340 Q460 260 500 180 Z" fill="#ff2e97" stroke="#2b2b46" stroke-width="6"/>
+          <rect x="456" y="342" width="88" height="150" fill="#f5f5ff" stroke="#2b2b46" stroke-width="6"/>
+          <circle cx="500" cy="400" r="26" fill="#2de1fc" stroke="#2b2b46" stroke-width="6"/>
+          <path d="M456 460 L414 528 L456 506 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/>
+          <path d="M544 460 L586 528 L544 506 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/>
+          <g id="engine-flame" class="flame hidden">
+            <path d="M500 500 Q545 585 500 660 Q455 585 500 500 Z" fill="#ff9f1c"/>
+            <path d="M500 520 Q528 580 500 630 Q472 580 500 520 Z" fill="#ffe600"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- countdown display -->
+      <text x="500" y="330" id="countdown" class="countdown hidden">3</text>
+
+      <!-- waving dog + Johnny -->
+      <g transform="translate(130 460)">
+        <ellipse cx="0" cy="60" rx="46" ry="20" fill="#d9a066"/>
+        <circle cx="-28" cy="34" r="22" fill="#e8b87d"/>
+        <circle cx="-36" cy="30" r="4" fill="#2b2b46"/><circle cx="-20" cy="30" r="4" fill="#2b2b46"/>
+        <path d="M-44 20 Q-52 6 -36 12" stroke="#c98d55" stroke-width="8" fill="none"/>
+      </g>
+
+      <text x="500" y="618" class="scene-caption" id="cap-p4">HOLD the BIG RED BUTTON to launch!</text>
+    </svg>
+    <button id="launch-btn" class="mega-btn red" aria-label="Hold to launch">🔥 HOLD TO LAUNCH 🔥</button>
+    <div class="narration" id="n-p4"><button class="read-btn" data-read="p4">🔊</button><span class="narr-text">Ten-second countdown… hold that button down and DO NOT LET GO!</span></div>
+  </section>
+
+  <!-- ============ PAGE 5 · LANDING ON MARS ============ -->
+  <section class="page" id="p5">
+    <svg viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" class="scene">
+      <rect width="1000" height="640" fill="#5a1a0c"/>
+      <rect width="1000" height="380" fill="url(#marsSky)"/>
+      <defs>
+        <linearGradient id="marsSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2b0a1e"/>
+          <stop offset="1" stop-color="#a63a1a"/>
+        </linearGradient>
+      </defs>
+      <!-- tiny blue Earth far away -->
+      <g id="earth-dot" class="tapable" data-sfx="boing">
+        <circle cx="880" cy="90" r="22" fill="#2de1fc" stroke="#fff" stroke-width="4"/>
+        <path d="M868 82 Q878 74 890 84 Q884 92 872 94 Z" fill="#a6ff00"/>
+        <text x="880" y="146" class="earth-label">HOME 🌍</text>
+      </g>
+      <!-- mars ground -->
+      <path d="M0 400 Q250 360 500 400 Q750 440 1000 390 L1000 640 L0 640 Z" fill="#d9502b"/>
+      <path d="M0 470 Q300 430 620 470 Q820 495 1000 460 L1000 640 L0 640 Z" fill="#b8391b"/>
+      <!-- rocks (tap to hop) -->
+      <g class="rock tapable" data-sfx="boing"><path d="M150 540 Q170 500 210 540 Z" fill="#8a2a10"/></g>
+      <g class="rock tapable" data-sfx="boing"><path d="M700 560 Q730 510 780 560 Z" fill="#8a2a10"/></g>
+      <g class="rock tapable" data-sfx="boing"><path d="M380 590 Q405 555 440 590 Z" fill="#8a2a10"/></g>
+      <!-- craters -->
+      <ellipse cx="580" cy="520" rx="70" ry="20" fill="#9c2f12"/>
+      <ellipse cx="220" cy="610" rx="90" ry="22" fill="#9c2f12"/>
+
+      <!-- descending rocket -->
+      <g id="landing-rocket">
+        <g transform="translate(500 210) scale(0.55)">
+          <path d="M0 -160 Q40 -80 44 0 L-44 0 Q-40 -80 0 -160 Z" fill="#ff2e97" stroke="#2b2b46" stroke-width="6"/>
+          <rect x="-44" y="2" width="88" height="150" fill="#f5f5ff" stroke="#2b2b46" stroke-width="6"/>
+          <circle cx="0" cy="60" r="26" fill="#2de1fc" stroke="#2b2b46" stroke-width="6"/>
+          <path d="M-44 120 L-86 188 L-44 166 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/>
+          <path d="M44 120 L86 188 L44 166 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/>
+          <g class="flame small"><path d="M0 156 Q34 220 0 280 Q-34 220 0 156 Z" fill="#ff9f1c"/><path d="M0 176 Q20 216 0 250 Q-20 216 0 176 Z" fill="#ffe600"/></g>
+        </g>
+      </g>
+      <!-- dust puffs (shown on touchdown) -->
+      <g id="dust" class="hidden">
+        <circle cx="380" cy="440" r="34" fill="#ffcf9e" opacity="0.9"/>
+        <circle cx="620" cy="445" r="40" fill="#ffcf9e" opacity="0.9"/>
+        <circle cx="300" cy="460" r="24" fill="#ffb56b" opacity="0.9"/>
+        <circle cx="700" cy="462" r="26" fill="#ffb56b" opacity="0.9"/>
+      </g>
+      <text x="500" y="618" class="scene-caption" id="cap-p5">TAP the TAP-TAP button to LAND!</text>
+    </svg>
+    <button id="land-btn" class="mega-btn orange">🛬 TAP TO LAND!</button>
+    <div class="narration" id="n-p5"><button class="read-btn" data-read="p5">🔊</button><span class="narr-text">Red rocks EVERYWHERE. Easy does it… land that rocket!</span></div>
+  </section>
+
+  <!-- ============ PAGE 6 · THE SNACK TRAGEDY ============ -->
+  <section class="page" id="p6">
+    <svg viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" class="scene">
+      <rect width="1000" height="640" fill="#d9502b"/>
+      <rect width="1000" height="260" fill="#5a1a0c"/>
+      <!-- rocket interior bubble -->
+      <circle cx="500" cy="330" r="240" fill="#f5f5ff" stroke="#2b2b46" stroke-width="10"/>
+      <circle cx="500" cy="330" r="212" fill="#2de1fc" opacity="0.25"/>
+      <!-- Johnny gasping -->
+      <g id="johnny-gasp" class="tapable" data-sfx="gasp">
+        <circle cx="500" cy="290" r="90" fill="#ffd9b3"/>
+        <path d="M410 282 A90 90 0 0 1 590 282 L590 292 A90 90 0 0 0 410 292 Z" fill="#ff2e97"/>
+        <circle cx="468" cy="300" r="12" fill="#2b2b46"/><circle cx="532" cy="300" r="12" fill="#2b2b46"/>
+        <ellipse id="gasp-mouth" cx="500" cy="345" rx="18" ry="24" fill="#2b2b46"/>
+        <!-- pating hands -->
+        <rect x="380" y="380" width="40" height="20" rx="10" fill="#ffd9b3"/>
+        <rect x="580" y="380" width="40" height="20" rx="10" fill="#ffd9b3"/>
+      </g>
+      <!-- empty backpack -->
+      <g transform="translate(280 470)"><g id="empty-pack" class="pop">
+        <rect x="-44" y="-50" width="88" height="100" rx="16" fill="#a6ff00" stroke="#4f8f00" stroke-width="6"/>
+        <path d="M-20 -50 Q0 -74 20 -50" stroke="#4f8f00" stroke-width="8" fill="none"/>
+        <text x="0" y="14" class="empty-x">EMPTY!!</text>
+      </g></g>
+      <!-- speech -->
+      <g id="gasp-speech" class="hidden">
+        <path d="M560 120 Q860 60 900 160 Q920 240 800 250 L640 230 L600 270 L610 220 Q520 200 560 120 Z" fill="#fff" stroke="#2b2b46" stroke-width="6"/>
+        <text x="730" y="160" class="gasp-text">I FORGOT THE</text>
+        <text x="730" y="205" class="gasp-text big">SNACKS!!!</text>
+      </g>
+      <!-- inset: back home, dog has the snacks -->
+      <g id="dog-reveal" class="hidden">
+        <circle cx="140" cy="120" r="105" fill="#ffb56b" stroke="#ffe600" stroke-width="9"/>
+        <ellipse cx="120" cy="170" rx="60" ry="22" fill="#d9a066"/>
+        <circle cx="100" cy="140" r="26" fill="#e8b87d"/>
+        <circle cx="90" cy="134" r="5" fill="#2b2b46"/><circle cx="112" cy="134" r="5" fill="#2b2b46"/>
+        <path d="M76 124 Q66 106 88 112" stroke="#c98d55" stroke-width="9" fill="none"/>
+        <rect x="140" y="130" width="70" height="54" rx="10" fill="#ff9f1c" stroke="#b8640a" stroke-width="5"/>
+        <text x="175" y="166" class="snack-tag">🍿🍪</text>
+        <text x="140" y="46" class="reveal-cap">MEANWHILE, AT HOME…</text>
+      </g>
+      <text x="620" y="72" class="end-title hidden" id="end-title">THE EEEEEEEND! 🎉</text>
+      <text x="500" y="618" class="scene-caption" id="cap-p6">Johnny pats his pockets… something is VERY wrong.</text>
+    </svg>
+    <button id="again-btn" class="mega-btn hidden">📖 READ IT AGAIN!</button>
+    <div class="narration" id="n-p6"><button class="read-btn" data-read="p6">🔊</button><span class="narr-text">MARS is AMAZING… but no chips? No cookies? Johnny, NO!</span></div>
+  </section>
+
+  <!-- page navigation -->
+  <button id="prev-btn" class="nav-arrow" aria-label="Previous page">◀</button>
+  <button id="next-btn" class="nav-arrow right" aria-label="Next page">▶</button>
+  <div id="confetti-layer"></div>
+</div>
+
+<script src="js/audio.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
