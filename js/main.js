@@ -185,26 +185,99 @@
   const dogThought = $('#dog-thought');
   const thoughts = ['…thats a BOX.', '…tape? REALLY?', '…its gonna EXPLODE.', '…hmm. OKAY.'];
   let thoughtIdx = 0;
+
+  // --- draw pad: kid draws each part with finger or mouse ---
+  const p3svg = $('#p3 .scene');
+  const PAD = { x: 270, y: 70, w: 460, h: 460 };
+  const PARTS = {
+    nose:   { x: 444, y: 120, w: 72, h: 110, title: 'DRAW THE NOSE CONE!', guide: 'M500 100 Q556 190 564 285 L436 285 Q444 190 500 100 Z' },
+    body:   { x: 444, y: 232, w: 72, h: 180, title: 'DRAW THE ROCKET BODY!', guide: 'M450 110 L550 110 L550 450 L450 450 Z' },
+    window: { x: 458, y: 278, w: 44, h: 44,  title: 'DRAW THE WINDOW!', guide: 'M410 300 A90 90 0 1 0 590 300 A90 90 0 1 0 410 300 Z' },
+    fins:   { x: 408, y: 392, w: 144, h: 60, title: 'DRAW THE FINS!', guide: 'M420 420 L470 200 L470 420 Z M530 420 L580 200 L580 420 Z' },
+  };
+  const CRAYONS = ['#ff2e97', '#7b2fff', '#0fa57a', '#ff4d2e', '#2de1fc', '#ff9f1c'];
+  let currentPart = null, crayon = 0, drawing = false, strokeD = '', curPath = null;
+
+  function svgPoint(e) {
+    const pt = p3svg.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    return pt.matrixTransform(p3svg.getScreenCTM().inverse());
+  }
+
+  function openPad(part) {
+    currentPart = part;
+    const cfg = PARTS[part];
+    $('#draw-title').textContent = cfg.title;
+    $('#draw-guide').innerHTML = '<path d="' + cfg.guide + '"/>';
+    $('#draw-strokes').innerHTML = '';
+    $('#draw-pad').classList.remove('hidden');
+    say('p3', 'Trace the lines or go WILD — the ' + part + ' is YOURS! Then tap ALL DONE!');
+    SFX.pop();
+  }
+
+  function closePadAndInstall() {
+    if (!currentPart) return;
+    const cfg = PARTS[currentPart];
+    const holder = $('#in-' + currentPart + ' .art-holder');
+    const kx = cfg.w / PAD.w, ky = cfg.h / PAD.h;
+    const cx = cfg.x + cfg.w / 2, cy = cfg.y + cfg.h / 2;
+    holder.setAttribute('transform',
+      'translate(' + (cx - kx * (PAD.x + PAD.w / 2)) + ' ' + (cy - ky * (PAD.y + PAD.h / 2)) + ') scale(' + kx + ' ' + ky + ')');
+    const strokes = $('#draw-strokes');
+    while (strokes.firstChild) holder.appendChild(strokes.firstChild);
+    $('#draw-pad').classList.add('hidden');
+
+    $('#in-' + currentPart).classList.add('placed');
+    $('#slot-' + currentPart).classList.add('filled');
+    const floorPart = $('#p3 .part[data-part=' + currentPart + ']');
+    if (floorPart) floorPart.classList.add('used');
+    placed++;
+    SFX.clank(); SFX.sparkle();
+    say('p3', 'CLANK! Your ' + currentPart + ' snaps on! ' + placed + ' out of 4!');
+    currentPart = null;
+    if (placed === 4) {
+      wobble($('#rocket-build'), 'rocket-done', 1200);
+      setCaption('#p3 .scene-caption', 'THE ROCKET IS DONE!! (the dog looks… impressed)');
+      say('p3', 'Rocket built with YOUR drawings! Even the dog approves. Almost.');
+      dogThought.textContent = '…okay. Thats COOL.';
+      dogThought.setAttribute('opacity', '1');
+      complete(3);
+      SFX.fanfare();
+    }
+  }
+
   $$('#p3 .part').forEach((p) => {
     on(p, 'pointerdown', () => {
-      if (p.classList.contains('used')) return;
-      p.classList.add('used');
-      const slot = $(`#in-${p.dataset.part}`);
-      slot.classList.add('placed');
-      $(`#slot-${p.dataset.part}`).classList.add('filled');
-      placed++;
-      say('p3', `CLANK! The ${p.dataset.part} snaps on! ${placed}/4`);
-      if (placed === 4) {
-        wobble($('#rocket-build'), 'rocket-done', 1200);
-        setCaption('#p3 .scene-caption', 'THE ROCKET IS DONE!! (the dog looks… impressed)');
-        say('p3', 'Rocket built! Even the dog approves. Almost.');
-        dogThought.textContent = '…okay. Thats COOL.';
-        dogThought.setAttribute('opacity', '1');
-        complete(3);
-        SFX.fanfare();
-      }
+      if (p.classList.contains('used') || currentPart) return;
+      openPad(p.dataset.part);
     });
   });
+  on($('#draw-done'), 'pointerdown', closePadAndInstall);
+
+  const paper = $('#paper');
+  on(paper, 'pointerdown', (e) => {
+    e.preventDefault();
+    drawing = true;
+    try { paper.setPointerCapture(e.pointerId); } catch (err) {}
+    const p = svgPoint(e);
+    strokeD = 'M' + p.x.toFixed(1) + ' ' + p.y.toFixed(1);
+    curPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    curPath.setAttribute('fill', 'none');
+    curPath.setAttribute('stroke', CRAYONS[crayon++ % CRAYONS.length]);
+    curPath.setAttribute('stroke-width', '30');
+    curPath.setAttribute('stroke-linecap', 'round');
+    curPath.setAttribute('stroke-linejoin', 'round');
+    curPath.setAttribute('d', strokeD + ' L' + p.x.toFixed(1) + ' ' + (p.y + 0.1).toFixed(1));
+    $('#draw-strokes').appendChild(curPath);
+  });
+  on(paper, 'pointermove', (e) => {
+    if (!drawing || !curPath) return;
+    const p = svgPoint(e);
+    strokeD += ' L' + p.x.toFixed(1) + ' ' + p.y.toFixed(1);
+    curPath.setAttribute('d', strokeD);
+  });
+  ['pointerup', 'pointercancel'].forEach((ev) => on(paper, ev, () => { drawing = false; curPath = null; }));
+
   on($('#dog-judge'), 'pointerdown', () => {
     wobble($('#dog-judge'), 'dog-shake', 600);
     dogThought.textContent = thoughts[thoughtIdx % thoughts.length];

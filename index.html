@@ -262,27 +262,33 @@
         <g class="slot" id="slot-window"><circle cx="480" cy="300" r="22" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="10 10" opacity="0.6"/></g>
         <!-- SLOT: fins -->
         <g class="slot" id="slot-fins"><path d="M444 392 L408 452 L444 436 Z M516 392 L552 452 L516 436 Z" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="10 10" opacity="0.6"/></g>
-        <!-- installed parts (hidden until placed) -->
-        <g id="in-nose" class="in-part"><path d="M480 120 Q512 180 516 230 L444 230 Q448 180 480 120 Z" fill="#ff2e97" stroke="#2b2b46" stroke-width="5"/></g>
-        <g id="in-body" class="in-part"><rect x="444" y="232" width="72" height="180" fill="#f5f5ff" stroke="#2b2b46" stroke-width="5"/></g>
-        <g id="in-window" class="in-part"><circle cx="480" cy="300" r="22" fill="#2de1fc" stroke="#2b2b46" stroke-width="5"/></g>
-        <g id="in-fins" class="in-part"><path d="M444 392 L408 452 L444 436 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/><path d="M516 392 L552 452 L516 436 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/></g>
+        <!-- installed parts (hidden until placed) — kid's drawing is clipped into the part shape -->
+        <defs>
+          <clipPath id="clip-nose"><path d="M480 120 Q512 180 516 230 L444 230 Q448 180 480 120 Z"/></clipPath>
+          <clipPath id="clip-body"><rect x="444" y="232" width="72" height="180"/></clipPath>
+          <clipPath id="clip-window"><circle cx="480" cy="300" r="22"/></clipPath>
+          <clipPath id="clip-fins"><path d="M444 392 L408 452 L444 436 Z M516 392 L552 452 L516 436 Z"/></clipPath>
+        </defs>
+        <g id="in-nose" class="in-part" clip-path="url(#clip-nose)"><path d="M480 120 Q512 180 516 230 L444 230 Q448 180 480 120 Z" fill="#ffd7ea" stroke="#2b2b46" stroke-width="5"/><g class="art-holder"></g></g>
+        <g id="in-body" class="in-part" clip-path="url(#clip-body)"><rect x="444" y="232" width="72" height="180" fill="#f5f5ff" stroke="#2b2b46" stroke-width="5"/><g class="art-holder"></g></g>
+        <g id="in-window" class="in-part" clip-path="url(#clip-window)"><circle cx="480" cy="300" r="22" fill="#c9f6ff" stroke="#2b2b46" stroke-width="5"/><g class="art-holder"></g></g>
+        <g id="in-fins" class="in-part" clip-path="url(#clip-fins)"><path d="M444 392 L408 452 L444 436 Z" fill="#fff3b8" stroke="#2b2b46" stroke-width="5"/><path d="M516 392 L552 452 L516 436 Z" fill="#fff3b8" stroke="#2b2b46" stroke-width="5"/><g class="art-holder"></g></g>
       </g>
 
       <!-- loose parts on the floor (tap to install) — outer <g> positions, inner animates -->
-      <g transform="translate(210 430)"><g class="part tapable" data-part="nose" data-sfx="clank">
+      <g transform="translate(210 430)"><g class="part tapable" data-part="nose" data-sfx="grab">
         <path d="M0 -50 Q32 10 36 60 L-36 60 Q-32 10 0 -50 Z" fill="#ff2e97" stroke="#2b2b46" stroke-width="5"/>
         <text y="90" class="part-label">NOSE!</text>
       </g></g>
-      <g transform="translate(320 440)"><g class="part tapable" data-part="body" data-sfx="clank">
+      <g transform="translate(320 440)"><g class="part tapable" data-part="body" data-sfx="grab">
         <rect x="-30" y="-60" width="60" height="150" fill="#f5f5ff" stroke="#2b2b46" stroke-width="5"/>
         <text y="112" class="part-label">BODY!</text>
       </g></g>
-      <g transform="translate(640 430)"><g class="part tapable" data-part="window" data-sfx="clank">
+      <g transform="translate(640 430)"><g class="part tapable" data-part="window" data-sfx="grab">
         <circle r="26" fill="#2de1fc" stroke="#2b2b46" stroke-width="5"/>
         <text y="56" class="part-label">WINDOW!</text>
       </g></g>
-      <g transform="translate(740 430)"><g class="part tapable" data-part="fins" data-sfx="clank">
+      <g transform="translate(740 430)"><g class="part tapable" data-part="fins" data-sfx="grab">
         <path d="M-38 30 L-6 -40 L-6 30 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/>
         <path d="M10 30 L42 -40 L42 30 Z" fill="#ffe600" stroke="#2b2b46" stroke-width="5"/>
         <text y="56" class="part-label">FINS!</text>
@@ -307,9 +313,25 @@
         <text x="20" y="-30" id="dog-thought" class="dog-thought" opacity="0">…that's a BOX.</text>
       </g></g>
 
-      <text x="500" y="622" class="scene-caption">TAP the parts into the glowing spots — CLANK!</text>
+      <!-- DRAW PAD: kid draws each part with finger or mouse -->
+      <g id="draw-pad" class="hidden">
+        <rect width="1000" height="640" fill="#0b0338" opacity="0.78"/>
+        <text id="draw-title" x="500" y="48" class="draw-title">DRAW THE NOSE!</text>
+        <rect id="paper" x="270" y="70" width="460" height="460" rx="18" fill="#fffdf5" stroke="#ffe600" stroke-width="8"/>
+        <g id="draw-guide" fill="none" stroke="#c9c9d9" stroke-width="5" stroke-dasharray="14 10"></g>
+        <g id="draw-strokes" pointer-events="none"></g>
+        <g id="draw-done" class="tapable" data-sfx="pop">
+          <rect x="760" y="245" width="200" height="110" rx="22" fill="#a6ff00" stroke="#fff" stroke-width="6"/>
+          <text x="860" y="292" class="draw-done-text">ALL</text>
+          <text x="860" y="332" class="draw-done-text">DONE!</text>
+        </g>
+        <text x="860" y="230" class="draw-hint">stuck? just tap ALL DONE!</text>
+        <text x="500" y="565" class="draw-hint-big">Use your FINGER 👆 or the MOUSE 🖱️!!</text>
+      </g>
+
+      <text x="500" y="622" class="scene-caption">TAP a part to DRAW it yourself — then stick it on!</text>
     </svg>
-    <div class="narration" id="n-p3"><button class="read-btn" data-read="p3">🔊</button><span class="narr-text">4 parts. 1 rocket. The dog thinks it will NOT work. Prove him wrong!</span></div>
+    <div class="narration" id="n-p3"><button class="read-btn" data-read="p3">🔊</button><span class="narr-text">4 parts. 1 rocket. YOU draw the parts! Tap one to start. The dog is doubtful.</span></div>
   </section>
 
   <!-- ============ PAGE 4 · BLAST OFF ============ -->
