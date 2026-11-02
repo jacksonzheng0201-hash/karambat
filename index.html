@@ -9,7 +9,7 @@
 <body>
 
 <!-- ============ MUTE ============ -->
-<button id="mute-btn" class="hud-btn" aria-label="Mute sounds">🔊</button>
+<button id="mute-btn" class="hud-btn" aria-label="Mute sounds">SOUND</button>
 
 <!-- ================================================================
      GATE — "Candy in the trunk!"
@@ -42,7 +42,7 @@
     <g id="gate-sign">
       <rect x="560" y="60" width="410" height="150" rx="24" fill="#ff2e97" stroke="#ffe600" stroke-width="8"/>
       <text x="765" y="122" class="sign-line">CANDY IN</text>
-      <text x="765" y="182" class="sign-line">THE TRUNK! 🍬</text>
+      <text x="765" y="182" class="sign-line">THE TRUNK!</text>
     </g>
 
     <!-- car (rear 3/4 view) -->
@@ -57,7 +57,7 @@
           <rect x="230" y="370" width="170" height="26" rx="8" fill="#e07800"/>
           <text x="315" y="447" class="box-q">?</text>
         </g>
-        <text x="315" y="580" class="hint" id="hint-jump" opacity="0">KIDS, CLIMB IN! 👇</text>
+        <text x="315" y="580" class="hint" id="hint-jump" opacity="0">KIDS, CLIMB IN!</text>
       </g>
       <!-- car body -->
       <path d="M120 500 L120 340 Q120 320 145 320 L500 320 L520 380 Q560 400 560 440 L560 500 Z" fill="#2de1fc" stroke="#0fd3ee" stroke-width="6"/>
@@ -76,7 +76,7 @@
   </svg>
 
   <!-- jump-in button appears after trunk opens -->
-  <button id="jump-btn" class="mega-btn">JUMP IN!! 🍬</button>
+  <button id="jump-btn" class="mega-btn">JUMP IN!!</button>
 </div>
 
 <!-- ================================================================
@@ -116,7 +116,7 @@
       </g>
       <text x="500" y="80" class="cover-kicker">A WIGGLY, LOUD, POP-UP BOOK</text>
       <text x="500" y="560" class="cover-title-1">JOHNNY</text>
-      <text x="500" y="608" class="cover-title-2">BUILDS A ROCKET TO MARS 🚀</text>
+      <text x="500" y="608" class="cover-title-2">BUILDS A ROCKET TO MARS</text>
       <!-- dog -->
       <g transform="translate(830 470)"><g id="cover-dog" class="pop">
         <ellipse cx="0" cy="80" rx="70" ry="26" fill="#d9a066"/>
@@ -178,7 +178,7 @@
       </g>
       <text x="500" y="618" class="scene-caption" id="cap-p1">Johnny sees something RED twinkling up there…</text>
     </svg>
-    <div class="narration" id="n-p1"><button class="read-btn" data-read="p1">🔊</button><span class="narr-text">That red dot is a PLANET! Tap it, quick!</span></div>
+    <div class="narration" id="n-p1"><button class="read-btn" data-read="p1">READ</button><span class="narr-text">That red dot is a PLANET! Tap it, quick!</span></div>
   </section>
 
   <!-- ============ PAGE 2 · GATHERING SUPPLIES ============ -->
@@ -208,7 +208,6 @@
       <g transform="translate(320 380)"><g class="item tapable" data-item="bottle" data-sfx="grab">
         <rect x="-18" y="-40" width="36" height="80" rx="12" fill="#a6ff00" stroke="#4f8f00" stroke-width="5"/>
         <rect x="-8" y="-56" width="16" height="18" rx="4" fill="#4f8f00"/>
-        <text x="0" y="10" class="fizz">🥤</text>
       </g></g>
       <g transform="translate(880 250)"><g class="item tapable" data-item="foil" data-sfx="grab">
         <path d="M-34 20 L-20 -22 L0 12 L20 -24 L34 20 Z" fill="#dfe3ff" stroke="#8c93c9" stroke-width="5"/>
@@ -234,11 +233,11 @@
       <!-- supply counter -->
       <g id="supply-counter">
         <rect x="700" y="40" width="270" height="90" rx="20" fill="#fff" stroke="#ff2e97" stroke-width="7"/>
-        <text x="835" y="103" id="supply-count" class="count-text">🎒 0 / 6</text>
+        <text x="835" y="103" id="supply-count" class="count-text">0 / 6</text>
       </g>
       <text x="500" y="618" class="scene-caption">HIDE-and-SQUEE seek! Grab ALL 6 supplies!</text>
     </svg>
-    <div class="narration" id="n-p2"><button class="read-btn" data-read="p2">🔊</button><span class="narr-text">A rocket needs: a tube, tape, a fizz bottle, shiny foil, a bucket, and a box! TAP each one!</span></div>
+    <div class="narration" id="n-p2"><button class="read-btn" data-read="p2">READ</button><span class="narr-text">A rocket needs: a tube, tape, a fizz bottle, shiny foil, a bucket, and a box! TAP each one!</span></div>
   </section>
 
   <!-- ============ PAGE 3 · BUILDING IN THE GARAGE ============ -->
@@ -247,9 +246,9 @@
       <rect width="1000" height="640" fill="#4f6b85"/>
       <rect y="480" width="1000" height="160" fill="#39505f"/>
       <rect x="40" y="50" width="190" height="130" rx="10" fill="#2b3947"/>
-      <text x="135" y="128" class="peg">🧰 TOOLS</text>
+      <text x="135" y="128" class="peg">TOOLS</text>
       <rect x="770" y="60" width="200" height="200" rx="16" fill="#ffe600" stroke="#b8960a" stroke-width="8"/>
-      <text x="870" y="175" class="window-sun">🌞</text>
+      <line x1="870" y1="60" x2="870" y2="260" stroke="#b8960a" stroke-width="6"/>
 
       <!-- rocket stand + silhouette slots -->
       <g id="rocket-build">
@@ -326,12 +325,12 @@
           <text x="860" y="332" class="draw-done-text">DONE!</text>
         </g>
         <text x="860" y="230" class="draw-hint">stuck? just tap ALL DONE!</text>
-        <text x="500" y="565" class="draw-hint-big">Use your FINGER 👆 or the MOUSE 🖱️!!</text>
+        <text x="500" y="565" class="draw-hint-big">Use your FINGER or the MOUSE!!</text>
       </g>
 
       <text x="500" y="622" class="scene-caption">TAP a part to DRAW it yourself — then stick it on!</text>
     </svg>
-    <div class="narration" id="n-p3"><button class="read-btn" data-read="p3">🔊</button><span class="narr-text">4 parts. 1 rocket. YOU draw the parts! Tap one to start. The dog is doubtful.</span></div>
+    <div class="narration" id="n-p3"><button class="read-btn" data-read="p3">READ</button><span class="narr-text">4 parts. 1 rocket. YOU draw the parts! Tap one to start. The dog is doubtful.</span></div>
   </section>
 
   <!-- ============ PAGE 4 · BLAST OFF ============ -->
@@ -382,8 +381,8 @@
 
       <text x="500" y="618" class="scene-caption" id="cap-p4">HOLD the BIG RED BUTTON to launch!</text>
     </svg>
-    <button id="launch-btn" class="mega-btn red" aria-label="Hold to launch">🔥 HOLD TO LAUNCH 🔥</button>
-    <div class="narration" id="n-p4"><button class="read-btn" data-read="p4">🔊</button><span class="narr-text">Ten-second countdown… hold that button down and DO NOT LET GO!</span></div>
+    <button id="launch-btn" class="mega-btn red" aria-label="Hold to launch">HOLD TO LAUNCH!</button>
+    <div class="narration" id="n-p4"><button class="read-btn" data-read="p4">READ</button><span class="narr-text">Ten-second countdown… hold that button down and DO NOT LET GO!</span></div>
   </section>
 
   <!-- ============ PAGE 5 · LANDING ON MARS ============ -->
@@ -401,7 +400,7 @@
       <g id="earth-dot" class="tapable" data-sfx="boing">
         <circle cx="880" cy="90" r="22" fill="#2de1fc" stroke="#fff" stroke-width="4"/>
         <path d="M868 82 Q878 74 890 84 Q884 92 872 94 Z" fill="#a6ff00"/>
-        <text x="880" y="146" class="earth-label">HOME 🌍</text>
+        <text x="880" y="146" class="earth-label">HOME</text>
       </g>
       <!-- mars ground -->
       <path d="M0 400 Q250 360 500 400 Q750 440 1000 390 L1000 640 L0 640 Z" fill="#d9502b"/>
@@ -434,8 +433,8 @@
       </g>
       <text x="500" y="618" class="scene-caption" id="cap-p5">TAP the TAP-TAP button to LAND!</text>
     </svg>
-    <button id="land-btn" class="mega-btn orange">🛬 TAP TO LAND!</button>
-    <div class="narration" id="n-p5"><button class="read-btn" data-read="p5">🔊</button><span class="narr-text">Red rocks EVERYWHERE. Easy does it… land that rocket!</span></div>
+    <button id="land-btn" class="mega-btn orange">TAP TO LAND!</button>
+    <div class="narration" id="n-p5"><button class="read-btn" data-read="p5">READ</button><span class="narr-text">Red rocks EVERYWHERE. Easy does it… land that rocket!</span></div>
   </section>
 
   <!-- ============ PAGE 6 · THE SNACK TRAGEDY ============ -->
@@ -476,19 +475,19 @@
         <circle cx="90" cy="134" r="5" fill="#2b2b46"/><circle cx="112" cy="134" r="5" fill="#2b2b46"/>
         <path d="M76 124 Q66 106 88 112" stroke="#c98d55" stroke-width="9" fill="none"/>
         <rect x="140" y="130" width="70" height="54" rx="10" fill="#ff9f1c" stroke="#b8640a" stroke-width="5"/>
-        <text x="175" y="166" class="snack-tag">🍿🍪</text>
+        <text x="175" y="166" class="snack-tag">SNACKS!</text>
         <text x="140" y="46" class="reveal-cap">MEANWHILE, AT HOME…</text>
       </g>
-      <text x="620" y="72" class="end-title hidden" id="end-title">THE EEEEEEEND! 🎉</text>
+      <text x="620" y="72" class="end-title hidden" id="end-title">THE EEEEEEEND!</text>
       <text x="500" y="618" class="scene-caption" id="cap-p6">Johnny pats his pockets… something is VERY wrong.</text>
     </svg>
-    <button id="again-btn" class="mega-btn hidden">📖 READ IT AGAIN!</button>
-    <div class="narration" id="n-p6"><button class="read-btn" data-read="p6">🔊</button><span class="narr-text">MARS is AMAZING… but no chips? No cookies? Johnny, NO!</span></div>
+    <button id="again-btn" class="mega-btn hidden">READ IT AGAIN!</button>
+    <div class="narration" id="n-p6"><button class="read-btn" data-read="p6">READ</button><span class="narr-text">MARS is AMAZING… but no chips? No cookies? Johnny, NO!</span></div>
   </section>
 
   <!-- page navigation -->
-  <button id="prev-btn" class="nav-arrow" aria-label="Previous page">◀</button>
-  <button id="next-btn" class="nav-arrow right" aria-label="Next page">▶</button>
+  <button id="prev-btn" class="nav-arrow" aria-label="Previous page">BACK</button>
+  <button id="next-btn" class="nav-arrow right" aria-label="Next page">NEXT</button>
   <div id="confetti-layer"></div>
 </div>
 

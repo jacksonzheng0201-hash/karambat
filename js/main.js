@@ -11,7 +11,7 @@
   on(muteBtn, 'click', () => {
     const m = !SFX.isMuted();
     SFX.setMuted(m);
-    muteBtn.textContent = m ? '🔇' : '🔊';
+    muteBtn.textContent = m ? 'MUTED' : 'SOUND';
   });
 
   // ---------- generic tap sounds ----------
@@ -149,7 +149,7 @@
   on($('#mars'), 'pointerdown', () => {
     if (donePages.has(1)) return;
     $('#mars').classList.add('found');
-    setCaption('#cap-p1', 'That red dot is… MARS!!! 🔴');
+    setCaption('#cap-p1', 'That red dot is… MARS!!!');
     say('p1', 'YOU FOUND IT! Johnny waves at Mars from the yard!');
     complete(1);
     burstConfetti(30);
@@ -166,7 +166,7 @@
       if (it.classList.contains('got')) return;
       it.classList.add('got');
       got++;
-      $('#supply-count').textContent = `🎒 ${got} / 6`;
+      $('#supply-count').textContent = `${got} / 6`;
       wobble($('#supply-counter'), 'wob', 500);
       say('p2', `Got the ${supplyNames[it.dataset.item]}! ${got} down, ${6 - got} to go!`);
       if (got === 6) {
@@ -330,13 +330,13 @@
     holding = false;
     launched = true;
     SFX.beep(true);
-    setCountdown('🚀');
+    setCountdown('GO!');
     SFX.lift();
     $('#engine-flame').classList.remove('hidden');
     $('#p4').classList.add('shaking');
     $('#rocket-p4').classList.add('liftoff');
     launchBtn.classList.add('hidden');
-    setCaption('#cap-p4', 'BLAST OFF!!!!! 🚀🔥');
+    setCaption('#cap-p4', 'BLAST OFF!!!!!');
     say('p4', 'WOOOOO! He is going UP, UP, UP!');
     setTimeout(() => {
       $('#p4').classList.remove('shaking');
@@ -379,7 +379,7 @@
       $('#dust').classList.remove('hidden');
       $('#dust').classList.add('puff');
       rocket.classList.add('landed-bounce');
-      setCaption('#cap-p5', 'TOUCHDOWN ON MARS!!! 🎉');
+      setCaption('#cap-p5', 'TOUCHDOWN ON MARS!!!');
       say('p5', 'He landed! One giant hop for Johnny!');
       setTimeout(() => {
         $('#p5').classList.remove('shaking');
@@ -402,7 +402,7 @@
     $('#gasp-speech').classList.remove('hidden');
     $('#johnny-gasp').classList.add('gasp-anim');
     setTimeout(() => SFX.sadTrombone(), 450);
-    setCaption('#cap-p6', 'HE FORGOT THE SNACKS!!! 😱');
+    setCaption('#cap-p6', 'HE FORGOT THE SNACKS!!!');
     say('p6', 'Oh no oh no OH NO. Tap the backpack!');
   });
   on($('#empty-pack'), 'pointerdown', () => {
@@ -412,7 +412,7 @@
     $('#dog-reveal').classList.remove('hidden');
     $('#dog-reveal').classList.add('pop-in');
     SFX.bark();
-    setCaption('#cap-p6', 'The dog… has the snacks. THE DOG! 🐶🍿');
+    setCaption('#cap-p6', 'The dog… has the snacks. THE DOG!');
     say('p6', 'The dog took the snack bag! What a sneaky pup. THE END!');
     setTimeout(() => {
       $('#end-title').classList.remove('hidden');
